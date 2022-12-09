@@ -1,0 +1,1392 @@
+Index: src/test/java/UI_stepDefinitions/Hooks.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package UI_stepDefinitions;\n\n    import io.cucumber.java.After;\nimport io.cucumber.java.Before;\nimport io.cucumber.java.Scenario;\nimport org.openqa.selenium.OutputType;\nimport org.openqa.selenium.TakesScreenshot;\nimport org.openqa.selenium.WebDriver;\nimport utilities.Driver;\n    public class Hooks {\n        public static WebDriver driver;\n        @Before\n        public void setUp() {\n            driver = Driver.getDriver();\n        }\n        @After\n        public void tearDown(Scenario scenario) {\n            if (scenario.isFailed()) {\n                final byte[] screenshot = ((TakesScreenshot) Driver.getDriver()).getScreenshotAs(OutputType.BYTES);\n                scenario.attach(screenshot, \"image/png\", \"screenshots\");\n            }\n       //   Driver.closeDriver();\n        }\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/test/java/UI_stepDefinitions/Hooks.java b/src/test/java/UI_stepDefinitions/Hooks.java
+--- a/src/test/java/UI_stepDefinitions/Hooks.java	(revision a0e073f3708cb1fd7354735ee7a53ddbfb0bc8ca)
++++ b/src/test/java/UI_stepDefinitions/Hooks.java	(date 1670502324332)
+@@ -19,6 +19,8 @@
+                 final byte[] screenshot = ((TakesScreenshot) Driver.getDriver()).getScreenshotAs(OutputType.BYTES);
+                 scenario.attach(screenshot, "image/png", "screenshots");
+             }
+-       //   Driver.closeDriver();
++
++          Driver.closeDriver();
++
+         }
+ }
+Index: src/test/java/UI_stepDefinitions/US_004_StepDef.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package UI_stepDefinitions;\n\nimport io.cucumber.java.en.Given;\nimport io.cucumber.java.en.Then;\nimport org.junit.Assert;\nimport pages.HomePage;\nimport utilities.BrowserUtilities;\nimport utilities.Driver;\n\nimport java.util.Set;\n\npublic class US_004_StepDef {\n    HomePage hp = new HomePage();\n\n    @Given(\"user go to Website {string}\")\n    public void user_go_to_website(String URL) {\n        Driver.getDriver().get(URL);\n    }\n\n    @Given(\"user scroll down\")\n    public void user_scroll_down() {\n        BrowserUtilities.scrollToElement(hp.scroll);\n    }\n\n    @Then(\"user assert  that the Facebook, LinkedIn, Twitter, Instagram icons are visible.\")\n    public void user_assert_that_the_facebook_linked_in_twitter_instagram_icons_are_visible() {\n        for (int i = 0; i < hp.links.size(); i++) {\n            Assert.assertTrue(hp.links.get(i).isDisplayed());\n        }\n    }\n\n    @Then(\"user assert that the Facebook, LinkedIn, Twitter, Instagram icons are clickable.\")\n    public void user_assert_that_the_facebook_linked_in_twitter_instagram_icons_are_clickable() {\n        for (int i = 0; i < hp.links.size(); i++) {\n            Assert.assertTrue(hp.links.get(i).isEnabled());\n        }\n    }\n    @Then(\"user clicks on the Facebook, LinkedIn, Twitter, Instagram icons.\")\n    public void user_clicks_on_the_facebook_linked_in_twitter_instagram_icons() {\n\n    }\n    //@Then(\"user assert  the company-related page be visible.\")\n    //public void user_assert_the_company_related_page_be_visible() {\n//        for (int i = 0; i < hp.links2.size(); i++) {\n\n//                hp.links2.get(i).click();\n//\n//\n//            Set<String> windowAllWindows = Driver.getDriver().getWindowHandles();\n//            System.out.println(\"------getDriverHandels------\" + Driver.getDriver().getWindowHandles());\n//            System.out.println(\"------setDriverHandels-------\" + windowAllWindows);\n//            for (String Window:windowAllWindows){\n//                Driver.getDriver().switchTo().window(Window);\n//                Driver.getDriver().close();\n//\n//\n//\n//\n//            }\n//            String CurrentURL = Driver.getDriver().getCurrentUrl();\n//            System.out.println(CurrentURL);\n//            if (i==0) {\n//                Assert.assertEquals(\"https://www.facebook.com/hypnotesinc\", CurrentURL);\n//               // Driver.getDriver().close();\n//            }\n//            else if(i==1){\n//                Assert.assertEquals(\"https://twitter.com/HypnotesInc\", CurrentURL);\n//             //   Driver.getDriver().close();\n//            }\n//            else if(i==2){\n//                Assert.assertEquals(\"https://www.instagram.com/hypnotesinc/?utm_medium=copy_link\", CurrentURL);\n//              //  Driver.getDriver().close();\n//            }\n//            else{\n//                Assert.assertEquals(\"https://www.linkedin.com/company/hypnotes/\", CurrentURL);\n//              //  Driver.getDriver().close();\n//            }\n//            Driver.getDriver().close();\n//        }\n   // }\n}\n\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/test/java/UI_stepDefinitions/US_004_StepDef.java b/src/test/java/UI_stepDefinitions/US_004_StepDef.java
+--- a/src/test/java/UI_stepDefinitions/US_004_StepDef.java	(revision a0e073f3708cb1fd7354735ee7a53ddbfb0bc8ca)
++++ b/src/test/java/UI_stepDefinitions/US_004_StepDef.java	(date 1670502259132)
+@@ -3,15 +3,14 @@
+ import io.cucumber.java.en.Given;
+ import io.cucumber.java.en.Then;
+ import org.junit.Assert;
++import pages.BasePage;
+ import pages.HomePage;
+ import utilities.BrowserUtilities;
+ import utilities.Driver;
+ 
+ import java.util.Set;
+ 
+-public class US_004_StepDef {
+-    HomePage hp = new HomePage();
+-
++public class US_004_StepDef extends BasePage {
+     @Given("user go to Website {string}")
+     public void user_go_to_website(String URL) {
+         Driver.getDriver().get(URL);
+@@ -19,20 +18,20 @@
+ 
+     @Given("user scroll down")
+     public void user_scroll_down() {
+-        BrowserUtilities.scrollToElement(hp.scroll);
++        BrowserUtilities.scrollToElement(getHomePage().scroll);
+     }
+ 
+     @Then("user assert  that the Facebook, LinkedIn, Twitter, Instagram icons are visible.")
+     public void user_assert_that_the_facebook_linked_in_twitter_instagram_icons_are_visible() {
+-        for (int i = 0; i < hp.links.size(); i++) {
+-            Assert.assertTrue(hp.links.get(i).isDisplayed());
++        for (int i = 0; i < getHomePage().links.size(); i++) {
++            Assert.assertTrue(getHomePage().links.get(i).isDisplayed());
+         }
+     }
+ 
+     @Then("user assert that the Facebook, LinkedIn, Twitter, Instagram icons are clickable.")
+     public void user_assert_that_the_facebook_linked_in_twitter_instagram_icons_are_clickable() {
+-        for (int i = 0; i < hp.links.size(); i++) {
+-            Assert.assertTrue(hp.links.get(i).isEnabled());
++        for (int i = 0; i < getHomePage().links.size(); i++) {
++            Assert.assertTrue(getHomePage().links.get(i).isEnabled());
+         }
+     }
+     @Then("user clicks on the Facebook, LinkedIn, Twitter, Instagram icons.")
+Index: src/test/java/UI_stepDefinitions/US_011_StepDef.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package UI_stepDefinitions;\n\nimport io.cucumber.java.en.Given;\nimport io.cucumber.java.en.Then;\n\npublic class US_011_StepDef {\n    @Then(\"assert titles are enable {string}\")\n    public void assertTitlesAreEnable(String arg0) {\n\n    }\n\n    @Given(\"go to bottom page\")\n    public void goToBottomPage() {\n    }\n\n    @Given(\"go to {string}\")\n    public void goTo(String arg0) {\n    }\n\n    @Then(\"the user clicks the link and verifies that url is the expected url\")\n    public void theUserClicksTheLinkAndVerifiesThatUrlIsTheExpectedUrl() {\n    }\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/test/java/UI_stepDefinitions/US_011_StepDef.java b/src/test/java/UI_stepDefinitions/US_011_StepDef.java
+--- a/src/test/java/UI_stepDefinitions/US_011_StepDef.java	(revision a0e073f3708cb1fd7354735ee7a53ddbfb0bc8ca)
++++ b/src/test/java/UI_stepDefinitions/US_011_StepDef.java	(date 1670502259132)
+@@ -2,8 +2,9 @@
+ 
+ import io.cucumber.java.en.Given;
+ import io.cucumber.java.en.Then;
++import pages.BasePage;
+ 
+-public class US_011_StepDef {
++public class US_011_StepDef extends BasePage {
+     @Then("assert titles are enable {string}")
+     public void assertTitlesAreEnable(String arg0) {
+ 
+Index: src/test/resources/features/US_013.feature
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>@US_013\nFeature:Client_Register_US_013\n  Scenario:TC_001\n  Given goes to https://test.hypnotes.net/\n  And clicks the sign up button.\n  And clicks \"Client\".\n  And clicks on the \"Google\" icon.\n  When User clicks google account.\n  Then User checks whether the confirmation mail has arrived.\n\n\n#    When clicks on the \"facebook\" icon.\n#    Then User checks whether the confirmation mail has arrived.\n#\n#    When clicks on the \"LinkedIn\" icon.\n#    Then User checks whether the confirmation mail has arrived.
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/test/resources/features/US_013.feature b/src/test/resources/features/US_013.feature
+--- a/src/test/resources/features/US_013.feature	(revision a0e073f3708cb1fd7354735ee7a53ddbfb0bc8ca)
++++ b/src/test/resources/features/US_013.feature	(date 1670502259136)
+@@ -1,7 +1,7 @@
+ @US_013
+ Feature:Client_Register_US_013
+   Scenario:TC_001
+-  Given goes to https://test.hypnotes.net/
++  Given User goes to website
+   And clicks the sign up button.
+   And clicks "Client".
+   And clicks on the "Google" icon.
+Index: src/test/java/UI_stepDefinitions/US_013_StepDef.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package UI_stepDefinitions;\n\nimport io.cucumber.java.en.Given;\nimport io.cucumber.java.en.Then;\nimport io.cucumber.java.en.When;\nimport org.junit.Assert;\nimport org.openqa.selenium.Keys;\nimport org.openqa.selenium.WebElement;\nimport org.openqa.selenium.support.ui.Select;\nimport pages.LoginRegisterPage;\nimport utilities.BrowserUtilities;\nimport utilities.ConfigurationReader;\nimport utilities.Driver;\n\nimport java.security.Key;\n\npublic class US_013_StepDef {\n    LoginRegisterPage lp = new LoginRegisterPage();\n\n    @Given(\"goes to https:\\\\/\\\\/test.hypnotes.net\\\\/\")\n    public void goes_to_https_test_hypnotes_net() {\n\n        Driver.getDriver().get(ConfigurationReader.getProperty(\"url\"));\n    }\n    @Given(\"clicks the sign up button.\")\n    public void clicks_the_sign_up_button() {\n        lp.signUpButton.click();\n\n    }\n    @Given(\"clicks {string}.\")\n    public void clicks(String string) {\n        lp.clientButton.click();\n        BrowserUtilities.waitFor(5);\n    }\n    @Given(\"clicks on the {string} icon.\")\n    public void clicks_on_the_icon(String string) {\n        lp.FacebookIcon.click();\n        BrowserUtilities.waitFor(5);\n    }\n    @When(\"User clicks google account.\")\n    public void user_clicks_google_account() {\n        //lp.inputEmail.click();\n        //lp.inputEmail.sendKeys(\"hypnotes2022cl1@gmail.com\", Keys.ENTER);\n        lp.facebookCookies.click();\n        BrowserUtilities.waitFor(5);\n\n        System.out.println(lp.facebookTitle.getText());\n        String FacebookLink = lp.facebookTitle.getText();\n        System.out.println(FacebookLink);\n        Assert.assertEquals(\"Bei Facebook anmelden\",FacebookLink);\n        // lp.facebookEmail.sendKeys(\"hypnotes2022cl2@gmail.com\");\n        // lp.facebookPassword.sendKeys(\"Aydinlik2023/\");\n        // lp.facebookLoginButton.click();\n        // lp.googleNextButton.click();\n\n    }\n    @Then(\"User checks whether the confirmation mail has arrived.\")\n    public void user_checks_whether_the_confirmation_mail_has_arrived() {\n        //  String CurrentURL = Driver.getDriver().getCurrentUrl();\n        //  System.out.println(CurrentURL);\n\n    }\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/test/java/UI_stepDefinitions/US_013_StepDef.java b/src/test/java/UI_stepDefinitions/US_013_StepDef.java
+--- a/src/test/java/UI_stepDefinitions/US_013_StepDef.java	(revision a0e073f3708cb1fd7354735ee7a53ddbfb0bc8ca)
++++ b/src/test/java/UI_stepDefinitions/US_013_StepDef.java	(date 1670502259132)
+@@ -7,6 +7,7 @@
+ import org.openqa.selenium.Keys;
+ import org.openqa.selenium.WebElement;
+ import org.openqa.selenium.support.ui.Select;
++import pages.BasePage;
+ import pages.LoginRegisterPage;
+ import utilities.BrowserUtilities;
+ import utilities.ConfigurationReader;
+@@ -14,8 +15,7 @@
+ 
+ import java.security.Key;
+ 
+-public class US_013_StepDef {
+-    LoginRegisterPage lp = new LoginRegisterPage();
++public class US_013_StepDef extends BasePage {
+ 
+     @Given("goes to https:\\/\\/test.hypnotes.net\\/")
+     public void goes_to_https_test_hypnotes_net() {
+@@ -24,28 +24,28 @@
+     }
+     @Given("clicks the sign up button.")
+     public void clicks_the_sign_up_button() {
+-        lp.signUpButton.click();
++        getLoginRegisterPage().signUpButton.click();
+ 
+     }
+     @Given("clicks {string}.")
+     public void clicks(String string) {
+-        lp.clientButton.click();
++        getLoginRegisterPage().clientButton.click();
+         BrowserUtilities.waitFor(5);
+     }
+     @Given("clicks on the {string} icon.")
+     public void clicks_on_the_icon(String string) {
+-        lp.FacebookIcon.click();
++        getLoginRegisterPage().FacebookIcon.click();
+         BrowserUtilities.waitFor(5);
+     }
+     @When("User clicks google account.")
+     public void user_clicks_google_account() {
+         //lp.inputEmail.click();
+         //lp.inputEmail.sendKeys("hypnotes2022cl1@gmail.com", Keys.ENTER);
+-        lp.facebookCookies.click();
++        getLoginRegisterPage().facebookCookies.click();
+         BrowserUtilities.waitFor(5);
+ 
+-        System.out.println(lp.facebookTitle.getText());
+-        String FacebookLink = lp.facebookTitle.getText();
++        System.out.println(getLoginRegisterPage().facebookTitle.getText());
++        String FacebookLink = getLoginRegisterPage().facebookTitle.getText();
+         System.out.println(FacebookLink);
+         Assert.assertEquals("Bei Facebook anmelden",FacebookLink);
+         // lp.facebookEmail.sendKeys("hypnotes2022cl2@gmail.com");
+Index: src/test/java/pages/LoginRegisterPage.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package pages;\n\nimport org.openqa.selenium.WebElement;\nimport org.openqa.selenium.support.FindBy;\n\n\nimport javax.swing.text.html.CSS;\nimport java.util.List;\n\npublic class LoginRegisterPage  extends BasePage {\n\n\n        @FindBy(xpath = \"//*[text()='Login']\")\n        public WebElement login;\n\n        @FindBy(css = \"[name='username']\")\n        public WebElement emailBox;\n\n        @FindBy(css = \"[name='password']\")\n        public WebElement passwordBox;\n\n        @FindBy(css = \"[type='submit']\")\n        public WebElement submitButton;\n\n        //START US_013\n        //@FindBy(xpath = \"//nav/a[10]\")\n        @FindBy(css = \".ant-dropdown-trigger.BaseNavbar_dropBtn__zkmnE.btn\")\n        public WebElement signUpButton;\n\n        @FindBy(xpath = \"//a[@href=\\\"/register/client\\\"]\")\n        public WebElement clientButton;\n\n        @FindBy(css = \"#social-media-login-logo-g\")\n        public WebElement googleIcon;\n\n        @FindBy(xpath = \"//input[@type=\\\"email\\\"]\")\n        public WebElement inputEmail;\n\n        @FindBy(css = \"VfPpkd-LgbsSe VfPpkd-LgbsSe-OWXEXe-k8QpJ VfPpkd-LgbsSe-OWXEXe-dgl2Hf nCP5yc AjY5Oe DuMIQc LQeN7 qIypjc TrZEUc lw1w4b\")\n        public WebElement googleNextButton;\n\n        @FindBy(css = \"#social-media-login-logo-fb\")\n        public WebElement FacebookIcon;\n        @FindBy(xpath = \"//button[@title=\\\"Erforderliche und optionale Cookies erlauben\\\"]\")\n        public WebElement facebookCookies;\n        @FindBy(xpath = \"//input[@name=\\\"email\\\"]\")\n        public WebElement facebookEmail;\n        @FindBy(xpath = \"//input[@name=\\\"pass\\\"]\")\n        public WebElement facebookPassword;\n\n        @FindBy(xpath = \"//button[@id=\\\"loginbutton\\\"]\")\n        public WebElement facebookLoginButton;\n\n        @FindBy(css = \"._9axz\")\n        public WebElement facebookTitle;\n\n        @FindBy(css = \"#social-media-login-logo-l\")\n        public WebElement linkedInIcon;\n\n\n        //END US_013\n\n\n        @FindBy(xpath = \"//a[text()='Sign Up']\")\n        public WebElement logRegPageSıgnUpButton;\n\n        @FindBy(xpath = \"//li/span/a[contains(text(),'Client')]\")\n        public List<WebElement> clientAndTherapist;\n\n        @FindBy(xpath = \"//li/span/a[contains(text(),'Therapist')]\")\n        public List<WebElement> clientAndTherapist2;\n\n        @FindBy(xpath = \"//*[text()='Client Register']\")\n        public WebElement clientRegisterTitle;\n\n        @FindBy(xpath = \"//*[contains(text(),'Already')]\")\n        public WebElement alreadyAccount;\n\n        @FindBy(xpath = \"(//*[contains(text(),'Login')])[2]\")\n        public WebElement accountLogin;\n\n        @FindBy(xpath = \"//button[@aria-checked='true']\")\n        public WebElement iAmTherapistButton;\n\n        @FindBy(xpath = \"//label[text()='I am therapist?']\")\n        public WebElement therapistTitle;\n\n        @FindBy(xpath = \"//label[text()='I am Client']\")\n        public WebElement clientTitle;\n\n        @FindBy(xpath = \"//button[@aria-checked='false'\")\n        public WebElement iAmClientButton;\n    }\n\n\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/test/java/pages/LoginRegisterPage.java b/src/test/java/pages/LoginRegisterPage.java
+--- a/src/test/java/pages/LoginRegisterPage.java	(revision a0e073f3708cb1fd7354735ee7a53ddbfb0bc8ca)
++++ b/src/test/java/pages/LoginRegisterPage.java	(date 1670502259136)
+@@ -7,89 +7,136 @@
+ import javax.swing.text.html.CSS;
+ import java.util.List;
+ 
+-public class LoginRegisterPage  extends BasePage {
++public class LoginRegisterPage extends BasePage {
+ 
+ 
+-        @FindBy(xpath = "//*[text()='Login']")
+-        public WebElement login;
++    @FindBy(xpath = "//*[text()='Login']")
++    public WebElement login;
+ 
+-        @FindBy(css = "[name='username']")
+-        public WebElement emailBox;
++    @FindBy(css = "[name='username']")
++    public WebElement emailBox;
+ 
+-        @FindBy(css = "[name='password']")
+-        public WebElement passwordBox;
++    @FindBy(css = "[name='password']")
++    public WebElement passwordBox;
+ 
+-        @FindBy(css = "[type='submit']")
+-        public WebElement submitButton;
++    @FindBy(css = "[type='submit']")
++    public WebElement submitButton;
+ 
+-        //START US_013
+-        //@FindBy(xpath = "//nav/a[10]")
+-        @FindBy(css = ".ant-dropdown-trigger.BaseNavbar_dropBtn__zkmnE.btn")
+-        public WebElement signUpButton;
++    //START US_013
++    //@FindBy(xpath = "//nav/a[10]")
++    @FindBy(css = ".ant-dropdown-trigger.BaseNavbar_dropBtn__zkmnE.btn")
++    public WebElement signUpButton;
+ 
+-        @FindBy(xpath = "//a[@href=\"/register/client\"]")
+-        public WebElement clientButton;
++    @FindBy(xpath = "//a[@href=\"/register/client\"]")
++    public WebElement clientButton;
+ 
+-        @FindBy(css = "#social-media-login-logo-g")
+-        public WebElement googleIcon;
++    @FindBy(css = "#social-media-login-logo-g")
++    public WebElement googleIcon;
+ 
+-        @FindBy(xpath = "//input[@type=\"email\"]")
+-        public WebElement inputEmail;
++    @FindBy(xpath = "//input[@type=\"email\"]")
++    public WebElement inputEmail;
+ 
+-        @FindBy(css = "VfPpkd-LgbsSe VfPpkd-LgbsSe-OWXEXe-k8QpJ VfPpkd-LgbsSe-OWXEXe-dgl2Hf nCP5yc AjY5Oe DuMIQc LQeN7 qIypjc TrZEUc lw1w4b")
+-        public WebElement googleNextButton;
++    @FindBy(css = "VfPpkd-LgbsSe VfPpkd-LgbsSe-OWXEXe-k8QpJ VfPpkd-LgbsSe-OWXEXe-dgl2Hf nCP5yc AjY5Oe DuMIQc LQeN7 qIypjc TrZEUc lw1w4b")
++    public WebElement googleNextButton;
+ 
+-        @FindBy(css = "#social-media-login-logo-fb")
+-        public WebElement FacebookIcon;
+-        @FindBy(xpath = "//button[@title=\"Erforderliche und optionale Cookies erlauben\"]")
+-        public WebElement facebookCookies;
+-        @FindBy(xpath = "//input[@name=\"email\"]")
+-        public WebElement facebookEmail;
+-        @FindBy(xpath = "//input[@name=\"pass\"]")
+-        public WebElement facebookPassword;
++    @FindBy(css = "#social-media-login-logo-fb")
++    public WebElement FacebookIcon;
++    @FindBy(xpath = "//button[@title=\"Erforderliche und optionale Cookies erlauben\"]")
++    public WebElement facebookCookies;
++    @FindBy(xpath = "//input[@name=\"email\"]")
++    public WebElement facebookEmail;
++    @FindBy(xpath = "//input[@name=\"pass\"]")
++    public WebElement facebookPassword;
+ 
+-        @FindBy(xpath = "//button[@id=\"loginbutton\"]")
+-        public WebElement facebookLoginButton;
++    @FindBy(xpath = "//button[@id=\"loginbutton\"]")
++    public WebElement facebookLoginButton;
+ 
+-        @FindBy(css = "._9axz")
+-        public WebElement facebookTitle;
++    @FindBy(css = "._9axz")
++    public WebElement facebookTitle;
+ 
+-        @FindBy(css = "#social-media-login-logo-l")
+-        public WebElement linkedInIcon;
++    @FindBy(css = "#social-media-login-logo-l")
++    public WebElement linkedInIcon;
+ 
+ 
+-        //END US_013
++    //END US_013
+ 
+ 
+-        @FindBy(xpath = "//a[text()='Sign Up']")
+-        public WebElement logRegPageSıgnUpButton;
++    @FindBy(xpath = "//a[text()='Sign Up']")
++    public WebElement logRegPageSıgnUpButton;
+ 
+-        @FindBy(xpath = "//li/span/a[contains(text(),'Client')]")
+-        public List<WebElement> clientAndTherapist;
++    @FindBy(xpath = "//li/span/a[contains(text(),'Client')]")
++    public List<WebElement> clientAndTherapist;
+ 
+-        @FindBy(xpath = "//li/span/a[contains(text(),'Therapist')]")
+-        public List<WebElement> clientAndTherapist2;
++    @FindBy(xpath = "//li/span/a[contains(text(),'Therapist')]")
++    public List<WebElement> clientAndTherapist2;
+ 
+-        @FindBy(xpath = "//*[text()='Client Register']")
+-        public WebElement clientRegisterTitle;
++    @FindBy(xpath = "//*[text()='Client Register']")
++    public WebElement clientRegisterTitle;
+ 
+-        @FindBy(xpath = "//*[contains(text(),'Already')]")
+-        public WebElement alreadyAccount;
++    @FindBy(xpath = "//*[contains(text(),'Already')]")
++    public WebElement alreadyAccount;
+ 
+-        @FindBy(xpath = "(//*[contains(text(),'Login')])[2]")
+-        public WebElement accountLogin;
++    @FindBy(xpath = "(//*[contains(text(),'Login')])[2]")
++    public WebElement accountLogin;
+ 
+-        @FindBy(xpath = "//button[@aria-checked='true']")
+-        public WebElement iAmTherapistButton;
++    @FindBy(xpath = "//button[@aria-checked='true']")
++    public WebElement iAmTherapistButton;
+ 
+-        @FindBy(xpath = "//label[text()='I am therapist?']")
+-        public WebElement therapistTitle;
++    @FindBy(xpath = "//label[text()='I am therapist?']")
++    public WebElement therapistTitle;
+ 
+-        @FindBy(xpath = "//label[text()='I am Client']")
+-        public WebElement clientTitle;
++    @FindBy(xpath = "//label[text()='I am Client']")
++    public WebElement clientTitle;
+ 
+-        @FindBy(xpath = "//button[@aria-checked='false'")
+-        public WebElement iAmClientButton;
+-    }
++    @FindBy(xpath = "//button[@aria-checked='false'")
++    public WebElement iAmClientButton;
++
++    @FindBy(linkText = "Clients")
++    public WebElement clientsPage;
++
++    @FindBy(xpath = "//input[@placeholder='Search Client by Name or Surname']")
++    public WebElement searchClientsBox;
++
++    @FindBy(xpath = "//*[contains(text(),'View Detail')]")
++    public WebElement clientViewDetail;
++
++
++    @FindBy(xpath = "(//p[@class='title'])[2]")
++    public WebElement presentingIssue;
++
++    @FindBy(xpath = "//div/p[text()='Additional Notes']")
++    public WebElement additionalNotesButton;
++
++//    @FindBy(xpath = "//div/label[text()='Attachments:']")
++//    public WebElement attachmentsTitle;
++//
++//    @FindBy(xpath = "(//span[@role='img'])[37]")
++//    public WebElement attachmentsAddButton;
++
++//    @FindBy(css = "#addImageModalInput1848")
++//    public WebElement chooseFile;
++
++    @FindBy(xpath = "(//button[@class='close'])[2]")
++    public WebElement closeButton;
++
++    @FindBy(id = "record-icon1848")
++    public WebElement voiceRecord;
++
++    @FindBy(xpath = "//span[@aria-label='sound']")
++    public WebElement soundıcon;
++
++    @FindBy(xpath = "(//*[contains(text(),'Copy')])[2]")
++    public WebElement copyButton;
++
++    @FindBy(xpath = "(//*[contains(text(),'Send to client')])[2]")
++    public WebElement sendClientButton;
++
++    @FindBy(xpath = "//*[contains(text(),'Extract text to")
++    public WebElement extractTextToButton;
++
++    @FindBy(xpath = "//*[contains(text(),'Delete Voice")
++    public WebElement deleteVoiceButton;
++
++}
+ 
+ 
+Index: src/test/java/UI_stepDefinitions/US_001_StepDef.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package UI_stepDefinitions;\n\nimport io.cucumber.java.en.And;\nimport io.cucumber.java.en.Given;\nimport io.cucumber.java.en.Then;\nimport org.junit.Assert;\nimport pages.BasePage;\nimport pages.HomePage;\nimport utilities.ConfigurationReader;\nimport utilities.Driver;\n\npublic class US_001_StepDef {\n\n\n    HomePage hp = new HomePage();\n\n    @Given(\"User goes to website\")\n    public void userGoesToWebsite() {\n        Driver.getDriver().get(ConfigurationReader.getProperty(\"urlWebsite\"));\n        Assert.assertTrue(hp.login.isDisplayed());\n    }\n\n\n    @Then(\"User verifies url {string}\")\n    public void user_verifies_url(String string) {\n        Assert.assertEquals(string, Driver.getDriver().getCurrentUrl());\n    }\n\n    @And(\"User verifies title and homepage\")\n    public void userVerifiesTitleAndHomepage() {\n        String title = (hp.hpTitle1.getText() + hp.hpTitle2.getText());\n        Assert.assertEquals(title, \"HYPNOTESNOTES\");\n    }\n\n\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/test/java/UI_stepDefinitions/US_001_StepDef.java b/src/test/java/UI_stepDefinitions/US_001_StepDef.java
+--- a/src/test/java/UI_stepDefinitions/US_001_StepDef.java	(revision a0e073f3708cb1fd7354735ee7a53ddbfb0bc8ca)
++++ b/src/test/java/UI_stepDefinitions/US_001_StepDef.java	(date 1670502259132)
+@@ -9,17 +9,13 @@
+ import utilities.ConfigurationReader;
+ import utilities.Driver;
+ 
+-public class US_001_StepDef {
+-
+-
+-    HomePage hp = new HomePage();
++public class US_001_StepDef extends BasePage{
+ 
+     @Given("User goes to website")
+     public void userGoesToWebsite() {
+-        Driver.getDriver().get(ConfigurationReader.getProperty("urlWebsite"));
+-        Assert.assertTrue(hp.login.isDisplayed());
++        Driver.getDriver().get(ConfigurationReader.getProperty("url"));
++        Assert.assertTrue(getHomePage().login.isDisplayed());
+     }
+-
+ 
+     @Then("User verifies url {string}")
+     public void user_verifies_url(String string) {
+@@ -28,7 +24,7 @@
+ 
+     @And("User verifies title and homepage")
+     public void userVerifiesTitleAndHomepage() {
+-        String title = (hp.hpTitle1.getText() + hp.hpTitle2.getText());
++        String title = (getHomePage().hpTitle1.getText() + getHomePage().hpTitle2.getText());
+         Assert.assertEquals(title, "HYPNOTESNOTES");
+     }
+ 
+Index: src/test/java/utilities/Driver.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package utilities;\n\nimport io.github.bonigarcia.wdm.WebDriverManager;\nimport org.openqa.selenium.WebDriver;\nimport org.openqa.selenium.chrome.ChromeDriver;\nimport org.openqa.selenium.chrome.ChromeOptions;\nimport org.openqa.selenium.firefox.FirefoxDriver;\nimport org.openqa.selenium.ie.InternetExplorerDriver;\nimport org.openqa.selenium.safari.SafariDriver;\n\nimport java.util.concurrent.TimeUnit;\n\npublic class Driver {\n    // Eğer bir class'tan NESNE ÜRETİLMESİNİ İSTEMİYORSANIZ\n    // constructor'ı private yapabilirsiniz (Singleton Class)\n    private Driver(){ }\n\n    // WebDriver nesnemizi, static olarak oluşturduk, çünkü program başlar başlamaz\n    // hafızada yer almasını istiyoruz.\n    static WebDriver driver;\n\n    // Programın herhangi bir yerinden getDriver() methodu çağırılarak\n    // hafıza STATIC olarak oluşturulmuş DRIVER nesnesine erişebiliriz.\n    // Yani yeniden WebDriver nesnesi oluşturmak zorunda değiliz.\n    //Driver.getDriver()\n    public static WebDriver getDriver(){\n        // Eğer driver nesnesi hafızada boşsa, oluşturulmamışsa yeniden oluşturmana gerek yok.\n        // Eğer null ise, yeniden oluşturabilirsin.\n        // Sadece ilk çağırıldığında bir tane nesne üret, sonraki çağırmalarda var olan nesnesi kullan.\n        if(driver == null){\n            switch (ConfigurationReader.getProperty(\"browser\")){\n                case \"chrome\":\n                    WebDriverManager.chromedriver().setup();\n                    driver = new ChromeDriver();\n                    break;\n                case \"firefox\":\n                    WebDriverManager.firefoxdriver().setup();\n                    driver = new FirefoxDriver();\n                    break;\n                case \"ie\":\n                    WebDriverManager.iedriver().setup();\n                    driver = new InternetExplorerDriver();\n                    break;\n                case \"safari\":\n                    WebDriverManager.getInstance(SafariDriver.class).setup();\n                    driver = new SafariDriver();\n                    break;\n                case \"headless-chrome\":\n                    WebDriverManager.chromedriver().setup();\n                    driver = new ChromeDriver(new ChromeOptions().setHeadless(true));\n                    break;\n            }\n\n        }\n\n        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);\n        driver.manage().window().maximize();\n\n        return driver;\n    }\n\n    public static void closeDriver(){\n        // Eğer driver nesnesi NULL değilse, yani hafızada varsa\n        if (driver != null){\n            driver.quit();  // driver'ı kapat\n            driver = null;  // driver'ı hafızadan temizle.\n        }\n    }\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/test/java/utilities/Driver.java b/src/test/java/utilities/Driver.java
+--- a/src/test/java/utilities/Driver.java	(revision a0e073f3708cb1fd7354735ee7a53ddbfb0bc8ca)
++++ b/src/test/java/utilities/Driver.java	(date 1670502259136)
+@@ -50,9 +50,7 @@
+                     driver = new ChromeDriver(new ChromeOptions().setHeadless(true));
+                     break;
+             }
+-
+         }
+-
+         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+         driver.manage().window().maximize();
+ 
+Index: src/test/java/UI_stepDefinitions/US_009_StepDef.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package UI_stepDefinitions;\n\nimport io.cucumber.java.en.*;\nimport org.junit.Assert;\nimport org.openqa.selenium.WebDriver;\nimport pages.HomePage;\nimport utilities.BrowserUtilities;\nimport utilities.ConfigurationReader;\nimport utilities.Driver;\n\npublic class US_009_StepDef {\n    HomePage up = new HomePage();\n    WebDriver driver = Driver.getDriver();\n\n\n    @And(\"user scrolls down\")\n    public void userScrollsDown() {\n        BrowserUtilities.scrollToElement(up.testimonialsText);\n    }\n\n    @And(\"user assert that Testimonials is appeared\")\n    public void userAssertThatTestimonialsIsAppeared() {\n        Assert.assertTrue(up.testimonialsText.isDisplayed());\n    }\n\n\n    @And(\"user assert that account of the relevant person is visible\")\n    public void userAssertThatAccountOfTheRelevantPersonIsVisible() {\n        String handle1 = driver.getWindowHandle();\n\n        for (int i = 0; i < up.people.size(); i++) {\n            if (i == 3 || i == 4) {\n                up.nextIcon.click();\n            }\n            Assert.assertTrue(up.people.get(i).isDisplayed());\n            Assert.assertTrue(up.people.get(i).isEnabled());\n            up.people.get(i).click();\n            for (String handle : driver.getWindowHandles()) {\n                if (!handle.equals(handle1)) {\n                    Driver.getDriver().switchTo().window(handle);\n                }\n\n            }\n            driver.switchTo().window(handle1);\n        }\n        Assert.assertEquals(up.people.size()+1,driver.getWindowHandles().size());\n\n    }\n\n    @And(\"user assert <> buttons are visible\")\n    public void userAssertButtonsAreVisible() {\n        Assert.assertTrue(up.nextIcon.isDisplayed());\n        Assert.assertTrue(up.previousIcon.isDisplayed());\n\n\n    }\n\n    @Then(\"user clicks on first dot\")\n    public void userClicksOnFirstDot() {\n        // BrowserUtilities.clickWithJS(up.firstDot);\n        BrowserUtilities.clickWithJS(up.dot.get(0));\n\n\n    }\n\n    @Then(\"assert previous button is not enabled\")\n    public void assertPreviousButtonIsNotEnabled() {\n        BrowserUtilities.scrollToElement(up.previousIcon);\n\n        Assert.assertFalse(up.previousIcon.isEnabled());\n \n    }\n\n    @When(\"user clicks on the last dot\")\n    public void userClicksOnTheLastDot() {\n        up.dot.get((up.dot).size() - 1).click();\n    }\n\n    @Then(\"assert next button is not enabled\")\n    public void assertNextButtonIsEnabled() {\n        Assert.assertFalse(up.nextIcon.isEnabled());\n    }\n\n    @Then(\"previous button is enabled\")\n    public void previousButtonIsEnabled() {\n        Assert.assertTrue(up.previousIcon.isEnabled());\n\n    }\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/test/java/UI_stepDefinitions/US_009_StepDef.java b/src/test/java/UI_stepDefinitions/US_009_StepDef.java
+--- a/src/test/java/UI_stepDefinitions/US_009_StepDef.java	(revision a0e073f3708cb1fd7354735ee7a53ddbfb0bc8ca)
++++ b/src/test/java/UI_stepDefinitions/US_009_StepDef.java	(date 1670502259132)
+@@ -3,24 +3,24 @@
+ import io.cucumber.java.en.*;
+ import org.junit.Assert;
+ import org.openqa.selenium.WebDriver;
++import pages.BasePage;
+ import pages.HomePage;
+ import utilities.BrowserUtilities;
+ import utilities.ConfigurationReader;
+ import utilities.Driver;
+ 
+-public class US_009_StepDef {
+-    HomePage up = new HomePage();
++public class US_009_StepDef extends BasePage {
+     WebDriver driver = Driver.getDriver();
+ 
+ 
+     @And("user scrolls down")
+     public void userScrollsDown() {
+-        BrowserUtilities.scrollToElement(up.testimonialsText);
++        BrowserUtilities.scrollToElement(getHomePage().testimonialsText);
+     }
+ 
+     @And("user assert that Testimonials is appeared")
+     public void userAssertThatTestimonialsIsAppeared() {
+-        Assert.assertTrue(up.testimonialsText.isDisplayed());
++        Assert.assertTrue(getHomePage().testimonialsText.isDisplayed());
+     }
+ 
+ 
+@@ -28,13 +28,13 @@
+     public void userAssertThatAccountOfTheRelevantPersonIsVisible() {
+         String handle1 = driver.getWindowHandle();
+ 
+-        for (int i = 0; i < up.people.size(); i++) {
++        for (int i = 0; i < getHomePage().people.size(); i++) {
+             if (i == 3 || i == 4) {
+-                up.nextIcon.click();
++                getHomePage().nextIcon.click();
+             }
+-            Assert.assertTrue(up.people.get(i).isDisplayed());
+-            Assert.assertTrue(up.people.get(i).isEnabled());
+-            up.people.get(i).click();
++            Assert.assertTrue(getHomePage().people.get(i).isDisplayed());
++            Assert.assertTrue(getHomePage().people.get(i).isEnabled());
++            getHomePage().people.get(i).click();
+             for (String handle : driver.getWindowHandles()) {
+                 if (!handle.equals(handle1)) {
+                     Driver.getDriver().switchTo().window(handle);
+@@ -43,14 +43,14 @@
+             }
+             driver.switchTo().window(handle1);
+         }
+-        Assert.assertEquals(up.people.size()+1,driver.getWindowHandles().size());
++        Assert.assertEquals(getHomePage().people.size()+1,driver.getWindowHandles().size());
+ 
+     }
+ 
+     @And("user assert <> buttons are visible")
+     public void userAssertButtonsAreVisible() {
+-        Assert.assertTrue(up.nextIcon.isDisplayed());
+-        Assert.assertTrue(up.previousIcon.isDisplayed());
++        Assert.assertTrue(getHomePage().nextIcon.isDisplayed());
++        Assert.assertTrue(getHomePage().previousIcon.isDisplayed());
+ 
+ 
+     }
+@@ -58,32 +58,32 @@
+     @Then("user clicks on first dot")
+     public void userClicksOnFirstDot() {
+         // BrowserUtilities.clickWithJS(up.firstDot);
+-        BrowserUtilities.clickWithJS(up.dot.get(0));
++        BrowserUtilities.clickWithJS(getHomePage().dot.get(0));
+ 
+ 
+     }
+ 
+     @Then("assert previous button is not enabled")
+     public void assertPreviousButtonIsNotEnabled() {
+-        BrowserUtilities.scrollToElement(up.previousIcon);
++        BrowserUtilities.scrollToElement(getHomePage().previousIcon);
+ 
+-        Assert.assertFalse(up.previousIcon.isEnabled());
++        Assert.assertFalse(getHomePage().previousIcon.isEnabled());
+  
+     }
+ 
+     @When("user clicks on the last dot")
+     public void userClicksOnTheLastDot() {
+-        up.dot.get((up.dot).size() - 1).click();
++        getHomePage().dot.get((getHomePage().dot).size() - 1).click();
+     }
+ 
+     @Then("assert next button is not enabled")
+     public void assertNextButtonIsEnabled() {
+-        Assert.assertFalse(up.nextIcon.isEnabled());
++        Assert.assertFalse(getHomePage().nextIcon.isEnabled());
+     }
+ 
+     @Then("previous button is enabled")
+     public void previousButtonIsEnabled() {
+-        Assert.assertTrue(up.previousIcon.isEnabled());
++        Assert.assertTrue(getHomePage().previousIcon.isEnabled());
+ 
+     }
+ }
+Index: src/test/java/pages/BasePage.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package pages;\n\nimport org.openqa.selenium.WebElement;\nimport org.openqa.selenium.support.FindBy;\nimport org.openqa.selenium.support.PageFactory;\nimport utilities.ConfigurationReader;\nimport utilities.Driver;\n\npublic abstract class BasePage {\n\n\n    public BasePage() {\n        PageFactory.initElements(Driver.getDriver(), this);\n    }\n}\n\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/test/java/pages/BasePage.java b/src/test/java/pages/BasePage.java
+--- a/src/test/java/pages/BasePage.java	(revision a0e073f3708cb1fd7354735ee7a53ddbfb0bc8ca)
++++ b/src/test/java/pages/BasePage.java	(date 1670502259136)
+@@ -7,10 +7,34 @@
+ import utilities.Driver;
+ 
+ public abstract class BasePage {
++    HomePage homePage;
++    RegisterPage registerPage;
++    LoginRegisterPage loginRegisterPage;
+ 
+ 
+     public BasePage() {
+         PageFactory.initElements(Driver.getDriver(), this);
+     }
++
++    public RegisterPage getRegisterPage() {
++        if (registerPage == null) {
++            registerPage = new RegisterPage();
++        }
++        return registerPage;
++    }
++
++    public HomePage getHomePage() {
++        if (homePage == null) {
++            homePage = new HomePage();
++        }
++        return homePage;
++    }
++
++    public LoginRegisterPage getLoginRegisterPage() {
++        if (loginRegisterPage==null){
++            loginRegisterPage= new LoginRegisterPage();
++        }
++        return loginRegisterPage;
++    }
+ }
+ 
+Index: src/test/resources/features/US_025.feature
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>#\"Email address and password button should be functional\n#Valid email and password must be entered\n#Successful login after valid information is entered\"\n\nFeature:\n\n  @nav\n  Scenario: As a user I should be able to login with my account\n\n    Given User goes to website\n    When click the login page\n    Then user verifies login page \"https://test.hypnotes.net/login\"\n    And enter the \"hypnotes2022tr2@gmail.com\"\n    And enter the password \"Aydinlik2023/\"\n    And click the login button\n    Then dasboard calendar page's url should open\n\n\n\n\n\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/test/resources/features/US_025.feature b/src/test/resources/features/US_025.feature
+--- a/src/test/resources/features/US_025.feature	(revision a0e073f3708cb1fd7354735ee7a53ddbfb0bc8ca)
++++ b/src/test/resources/features/US_025.feature	(date 1670502259136)
+@@ -19,3 +19,4 @@
+ 
+ 
+ 
++
+Index: src/test/java/UI_stepDefinitions/US_057_StepDef.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/test/java/UI_stepDefinitions/US_057_StepDef.java b/src/test/java/UI_stepDefinitions/US_057_StepDef.java
+new file mode 100644
+--- /dev/null	(date 1670502259132)
++++ b/src/test/java/UI_stepDefinitions/US_057_StepDef.java	(date 1670502259132)
+@@ -0,0 +1,87 @@
++package UI_stepDefinitions;
++
++import io.cucumber.java.en.And;
++import io.cucumber.java.en.Then;
++import io.cucumber.java.en.When;
++import org.junit.Assert;
++import org.openqa.selenium.Keys;
++import org.openqa.selenium.interactions.Actions;
++import pages.BasePage;
++import pages.LoginRegisterPage;
++import utilities.BrowserUtilities;
++import utilities.Driver;
++
++import javax.swing.*;
++import java.awt.*;
++
++public class US_057_StepDef extends BasePage {
++
++    @When("user clicks clients")
++    public void userClicksClients() {
++        getLoginRegisterPage().clientsPage.click();
++
++    }
++
++    @Then("user search client")
++    public void userSearchClient() {
++        BrowserUtilities.clickWithJS(getLoginRegisterPage().searchClientsBox);
++        getLoginRegisterPage().searchClientsBox.sendKeys("mahir kara");
++        Actions actions= new Actions(Driver.getDriver());
++        actions.sendKeys(Keys.ENTER);
++
++    }
++
++
++    @When("user clicks view detail")
++    public void userClicksViewDetail() {
++        BrowserUtilities.clickWithJS(getLoginRegisterPage().clientViewDetail);
++        BrowserUtilities.waitFor(3);
++        //lg.clientViewDetail.click();
++    }
++
++    @And("user clicks login Presenting Issue")
++    public void userClicksLoginPresentingIssue() {
++       BrowserUtilities.clickWithJS(getLoginRegisterPage().presentingIssue);
++        //lg.presentingIssue.click();
++    }
++
++    @And("user clicks Additional Notes")
++    public void userClicksAdditionalNotes() {
++        BrowserUtilities.waitFor(3);
++        BrowserUtilities.scrollToElement(getLoginRegisterPage().additionalNotesButton);
++        BrowserUtilities.waitFor(3);
++        getLoginRegisterPage().additionalNotesButton.click();
++    }
++
++
++    @Then("Assert voice Notes is enable")
++    public void assertVoiceNotesIsEnable() {
++        BrowserUtilities.scrollToElement(getLoginRegisterPage().voiceRecord);
++        Assert.assertTrue(getLoginRegisterPage().voiceRecord.isEnabled());
++    }
++
++    @When("user clicks add Voice")
++    public void userClicksAddVoice() {
++    }
++
++    @Then("user verifies Recording")
++    public void userVerifiesRecording() {
++    }
++
++    @When("user clicks recorded sound")
++    public void userClicksRecordedSound() {
++    }
++
++    @Then("user clicks Play button and Voice play")
++    public void userClicksPlayButtonAndVoicePlay() {
++    }
++
++    @And("user verifies {string}")
++    public void userVerifies(String arg0) {
++
++    }
++
++    @And("user verifies {string} functionality")
++    public void userVerifiesFunctionality(String arg0) {
++    }
++}
+Index: src/test/java/UI_stepDefinitions/US_006_StepDef.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package UI_stepDefinitions;\n\nimport io.cucumber.java.en.Given;\nimport io.cucumber.java.en.Then;\nimport org.junit.Assert;\nimport pages.HomePage;\nimport utilities.BrowserUtilities;\nimport utilities.ConfigurationReader;\nimport utilities.Driver;\nimport utilities.JSUtils;\n\npublic class US_006_StepDef {\n\n    HomePage page = new HomePage();\n\n    @Given(\"the user is on the main page\")\n    public void the_user_is_on_the_main_page() {\n\n        Driver.getDriver().get(ConfigurationReader.getProperty(\"url\"));\n\n\n    }\n\n    @Then(\"{string} header should appear\")\n    public void header_should_appear(String erva) {\n        BrowserUtilities.scrollToElement(page.aboutHypnotes);\n        BrowserUtilities.waitFor(3);\n        Assert.assertEquals(\"aboutHypnotes header is appear\", erva, page.aboutHypnotes.getText());\n\n\n    }\n\n    @Then(\"{string} should be clickable\")\n    public void should_be_clickable(String string) {\n        BrowserUtilities.doubleClick(page.aboutHypnotes);\n        String currentUrl = Driver.getDriver().getCurrentUrl();\n        String expectedUrl = \"https://test.hypnotes.net/about-us\";\n        Assert.assertEquals(currentUrl, expectedUrl);\n\n    }\n\n\n    @Then(\"On the opened web page {string} and other titles should be visible.\")\n    public void onTheOpenedWebPageAndOtherTitlesShouldBeVisible(String title) {\n\n\n        JSUtils.scrollIntoViewJS(page.hypnotes);\n        BrowserUtilities.waitFor(2);\n        String expectedTitle1a = \"Who is\";\n        String expectedTitle1b = \"Hypnotes?\";\n        String actualTitle1 = page.hypnotes.getText();\n        Assert.assertTrue(actualTitle1.contains(expectedTitle1a));\n        Assert.assertTrue(actualTitle1.contains(expectedTitle1b));\n\n\n        JSUtils.scrollIntoViewJS(page.ourTeam);\n        BrowserUtilities.waitFor(2);\n        String expectedTitle2a = \"Who is our team? &\";\n        String expectedTitle2b = \"Why we are?\";\n        String actualTitle2 = page.ourTeam.getText();\n        Assert.assertTrue(actualTitle2.contains(expectedTitle2a));\n        Assert.assertTrue(actualTitle2.contains(expectedTitle2b));\n\n\n        JSUtils.scrollIntoViewJS(page.services);\n        BrowserUtilities.waitFor(2);\n        String expectedTitle3a = \"Our services &\";\n        String expectedTitle3b = \"Features\";\n        String actualTitle3 = page.services.getText();\n        Assert.assertTrue(actualTitle3.contains(expectedTitle3a));\n        Assert.assertTrue(actualTitle3.contains(expectedTitle3b));\n\n        JSUtils.scrollIntoViewJS(page.startUsing);\n        BrowserUtilities.waitFor(2);\n        String expectedTitle4a = \"Why you should start using\";\n        String expectedTitle4b = \"Hypnotes now!\";\n        String actualTitle4 = page.startUsing.getText();\n        System.out.println(actualTitle3);\n        Assert.assertTrue(actualTitle4.contains(expectedTitle4a));\n        Assert.assertTrue(actualTitle4.contains(expectedTitle4b));\n\n        Driver.getDriver().close();\n\n    }\n}\n\n\n\n\n\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/test/java/UI_stepDefinitions/US_006_StepDef.java b/src/test/java/UI_stepDefinitions/US_006_StepDef.java
+--- a/src/test/java/UI_stepDefinitions/US_006_StepDef.java	(revision a0e073f3708cb1fd7354735ee7a53ddbfb0bc8ca)
++++ b/src/test/java/UI_stepDefinitions/US_006_StepDef.java	(date 1670502259132)
+@@ -3,15 +3,14 @@
+ import io.cucumber.java.en.Given;
+ import io.cucumber.java.en.Then;
+ import org.junit.Assert;
++import pages.BasePage;
+ import pages.HomePage;
+ import utilities.BrowserUtilities;
+ import utilities.ConfigurationReader;
+ import utilities.Driver;
+ import utilities.JSUtils;
+ 
+-public class US_006_StepDef {
+-
+-    HomePage page = new HomePage();
++public class US_006_StepDef extends BasePage {
+ 
+     @Given("the user is on the main page")
+     public void the_user_is_on_the_main_page() {
+@@ -23,16 +22,16 @@
+ 
+     @Then("{string} header should appear")
+     public void header_should_appear(String erva) {
+-        BrowserUtilities.scrollToElement(page.aboutHypnotes);
++        BrowserUtilities.scrollToElement(getHomePage().aboutHypnotes);
+         BrowserUtilities.waitFor(3);
+-        Assert.assertEquals("aboutHypnotes header is appear", erva, page.aboutHypnotes.getText());
++        Assert.assertEquals("aboutHypnotes header is appear", erva, getHomePage().aboutHypnotes.getText());
+ 
+ 
+     }
+ 
+     @Then("{string} should be clickable")
+     public void should_be_clickable(String string) {
+-        BrowserUtilities.doubleClick(page.aboutHypnotes);
++        BrowserUtilities.doubleClick(getHomePage().aboutHypnotes);
+         String currentUrl = Driver.getDriver().getCurrentUrl();
+         String expectedUrl = "https://test.hypnotes.net/about-us";
+         Assert.assertEquals(currentUrl, expectedUrl);
+@@ -44,37 +43,37 @@
+     public void onTheOpenedWebPageAndOtherTitlesShouldBeVisible(String title) {
+ 
+ 
+-        JSUtils.scrollIntoViewJS(page.hypnotes);
++        JSUtils.scrollIntoViewJS(getHomePage().hypnotes);
+         BrowserUtilities.waitFor(2);
+         String expectedTitle1a = "Who is";
+         String expectedTitle1b = "Hypnotes?";
+-        String actualTitle1 = page.hypnotes.getText();
++        String actualTitle1 = getHomePage().hypnotes.getText();
+         Assert.assertTrue(actualTitle1.contains(expectedTitle1a));
+         Assert.assertTrue(actualTitle1.contains(expectedTitle1b));
+ 
+ 
+-        JSUtils.scrollIntoViewJS(page.ourTeam);
++        JSUtils.scrollIntoViewJS(getHomePage().ourTeam);
+         BrowserUtilities.waitFor(2);
+         String expectedTitle2a = "Who is our team? &";
+         String expectedTitle2b = "Why we are?";
+-        String actualTitle2 = page.ourTeam.getText();
++        String actualTitle2 = getHomePage().ourTeam.getText();
+         Assert.assertTrue(actualTitle2.contains(expectedTitle2a));
+         Assert.assertTrue(actualTitle2.contains(expectedTitle2b));
+ 
+ 
+-        JSUtils.scrollIntoViewJS(page.services);
++        JSUtils.scrollIntoViewJS(getHomePage().services);
+         BrowserUtilities.waitFor(2);
+         String expectedTitle3a = "Our services &";
+         String expectedTitle3b = "Features";
+-        String actualTitle3 = page.services.getText();
++        String actualTitle3 = getHomePage().services.getText();
+         Assert.assertTrue(actualTitle3.contains(expectedTitle3a));
+         Assert.assertTrue(actualTitle3.contains(expectedTitle3b));
+ 
+-        JSUtils.scrollIntoViewJS(page.startUsing);
++        JSUtils.scrollIntoViewJS(getHomePage().startUsing);
+         BrowserUtilities.waitFor(2);
+         String expectedTitle4a = "Why you should start using";
+         String expectedTitle4b = "Hypnotes now!";
+-        String actualTitle4 = page.startUsing.getText();
++        String actualTitle4 = getHomePage().startUsing.getText();
+         System.out.println(actualTitle3);
+         Assert.assertTrue(actualTitle4.contains(expectedTitle4a));
+         Assert.assertTrue(actualTitle4.contains(expectedTitle4b));
+Index: src/test/resources/features/US_019.feature
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>Feature:RegisterPage\n\n  Scenario:TC019 As a user I should be able to see the functionality of the register page.\n    Given user goes to register page\n    When user name button is visible\n    And user email button is visible\n    And user password button is visible\n    And user name button is enable\n    And user email button is enable\n    And user password button is enable\n\n  Scenario Outline:\n    Given user goes to register page\n    When user enters \"<fullname>\" \"<email>\" \"<password>\"\n    Then verify that the \"<message>\" prompt appears\n    Examples:\n      | fullname     | email                     | password      |message|\n      |              | hypnotes2022tr2@gmail.com | Aydinlik2023/ |       |\n      | Erva Senel   |                           | Aydinlik2023/ |Please fill in this field.|\n      | Erva Senel   | hypnotes2022tr2@gmail.com |               |                          |\n      | Sebnem Aydin | meltemcoban               | Aydinlik2023/ |Please include an '@' in the email address. 'meltemcoban' is missing an '@'.|
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/test/resources/features/US_019.feature b/src/test/resources/features/US_019.feature
+--- a/src/test/resources/features/US_019.feature	(revision a0e073f3708cb1fd7354735ee7a53ddbfb0bc8ca)
++++ b/src/test/resources/features/US_019.feature	(date 1670502259136)
+@@ -14,8 +14,8 @@
+     When user enters "<fullname>" "<email>" "<password>"
+     Then verify that the "<message>" prompt appears
+     Examples:
+-      | fullname     | email                     | password      |message|
+-      |              | hypnotes2022tr2@gmail.com | Aydinlik2023/ |       |
+-      | Erva Senel   |                           | Aydinlik2023/ |Please fill in this field.|
+-      | Erva Senel   | hypnotes2022tr2@gmail.com |               |                          |
+-      | Sebnem Aydin | meltemcoban               | Aydinlik2023/ |Please include an '@' in the email address. 'meltemcoban' is missing an '@'.|
+\ No newline at end of file
++      | fullname     | email                     | password      | message                                                                      |
++      |              | hypnotes2022tr2@gmail.com | Aydinlik2023/ |                                                                              |
++      | Erva Senel   |                           | Aydinlik2023/ | Please fill in this field.                                                   |
++      | Erva Senel   | hypnotes2022tr2@gmail.com |               |                                                                              |
++      | Sebnem Aydin | meltemcoban               | Aydinlik2023/ | Please include an '@' in the email address. 'meltemcoban' is missing an '@'. |
+\ No newline at end of file
+Index: src/test/java/UI_stepDefinitions/US_025_StepDef.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package UI_stepDefinitions;\n\nimport io.cucumber.java.en.And;\nimport io.cucumber.java.en.Then;\nimport io.cucumber.java.en.When;\nimport org.junit.Assert;\nimport pages.LoginRegisterPage;\nimport utilities.BrowserUtilities;\nimport utilities.Driver;\n\npublic class US_025_StepDef {\n    LoginRegisterPage lp = new LoginRegisterPage();\n\n    @When(\"click the login page\")\n    public void clickTheLoginPage() {\n\n       BrowserUtilities.waitFor(3);\n        lp.login.click();\n    }\n\n    @Then(\"user verifies login page {string}\")\n    public void userVerifiesLoginPage(String url) {\n        BrowserUtilities.waitFor(2);\n        Assert.assertEquals(url, Driver.getDriver().getCurrentUrl());\n    }\n\n    @When(\"enter the {string}\")\n    public void enter_the(String email) {\n        lp.emailBox.sendKeys(email);\n\n    }\n\n    @And(\"enter the password {string}\")\n    public void enterThePassword(String password) {\n        lp.passwordBox.sendKeys(password);\n    }\n\n    @When(\"click the login button\")\n    public void click_the_login_button() {\n        BrowserUtilities.clickWithJS(lp.submitButton);\n    }\n\n\n    @Then(\"dasboard calendar page's url should open\")\n    public void dasboardCalendarPageSUrlShouldOpen() {\n        String expectedUrl=\"https://test.hypnotes.net/login\";\n        String actualUrl=Driver.getDriver().getCurrentUrl();\n        Assert.assertEquals(expectedUrl,actualUrl);\n    }\n\n\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/test/java/UI_stepDefinitions/US_025_StepDef.java b/src/test/java/UI_stepDefinitions/US_025_StepDef.java
+--- a/src/test/java/UI_stepDefinitions/US_025_StepDef.java	(revision a0e073f3708cb1fd7354735ee7a53ddbfb0bc8ca)
++++ b/src/test/java/UI_stepDefinitions/US_025_StepDef.java	(date 1670502259132)
+@@ -4,18 +4,19 @@
+ import io.cucumber.java.en.Then;
+ import io.cucumber.java.en.When;
+ import org.junit.Assert;
++import pages.BasePage;
+ import pages.LoginRegisterPage;
+ import utilities.BrowserUtilities;
+ import utilities.Driver;
+ 
+-public class US_025_StepDef {
+-    LoginRegisterPage lp = new LoginRegisterPage();
++public class US_025_StepDef extends BasePage {
++
+ 
+     @When("click the login page")
+     public void clickTheLoginPage() {
+ 
+        BrowserUtilities.waitFor(3);
+-        lp.login.click();
++        getLoginRegisterPage().login.click();
+     }
+ 
+     @Then("user verifies login page {string}")
+@@ -26,18 +27,18 @@
+ 
+     @When("enter the {string}")
+     public void enter_the(String email) {
+-        lp.emailBox.sendKeys(email);
++        getLoginRegisterPage().emailBox.sendKeys(email);
+ 
+     }
+ 
+     @And("enter the password {string}")
+     public void enterThePassword(String password) {
+-        lp.passwordBox.sendKeys(password);
++        getLoginRegisterPage().passwordBox.sendKeys(password);
+     }
+ 
+     @When("click the login button")
+     public void click_the_login_button() {
+-        BrowserUtilities.clickWithJS(lp.submitButton);
++        BrowserUtilities.clickWithJS(getLoginRegisterPage().submitButton);
+     }
+ 
+ 
+Index: src/test/java/UI_stepDefinitions/US_002_StepDef.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package UI_stepDefinitions;\n\nimport io.cucumber.java.en.Then;\nimport org.junit.Assert;\nimport pages.HomePage;\n\npublic class US_002_StepDef {\n\n    HomePage page = new HomePage();\n\n\n    @Then(\"assert titles are visible\")\n    public void assert_titles_are_visible() {\n\n        for (int i = 0; i < page.barButtons.size(); i++) {\n            Assert.assertTrue(page.barButtons.get(i).isDisplayed());\n        }\n    }\n\n    @Then(\"assert titles are clickable\")\n    public void assert_titles_are_clickable() {\n        for (int i = 0; i < page.barButtons.size(); i++) {\n            Assert.assertTrue(page.barButtons.get(i).isEnabled());\n        }\n\n    }\n\n\n}\n\n\n\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/test/java/UI_stepDefinitions/US_002_StepDef.java b/src/test/java/UI_stepDefinitions/US_002_StepDef.java
+--- a/src/test/java/UI_stepDefinitions/US_002_StepDef.java	(revision a0e073f3708cb1fd7354735ee7a53ddbfb0bc8ca)
++++ b/src/test/java/UI_stepDefinitions/US_002_StepDef.java	(date 1670502259132)
+@@ -2,25 +2,24 @@
+ 
+ import io.cucumber.java.en.Then;
+ import org.junit.Assert;
++import pages.BasePage;
+ import pages.HomePage;
+ 
+-public class US_002_StepDef {
+-
+-    HomePage page = new HomePage();
++public class US_002_StepDef extends BasePage {
+ 
+ 
+     @Then("assert titles are visible")
+     public void assert_titles_are_visible() {
+ 
+-        for (int i = 0; i < page.barButtons.size(); i++) {
+-            Assert.assertTrue(page.barButtons.get(i).isDisplayed());
++        for (int i = 0; i < getHomePage().barButtons.size(); i++) {
++            Assert.assertTrue(getHomePage().barButtons.get(i).isDisplayed());
+         }
+     }
+ 
+     @Then("assert titles are clickable")
+     public void assert_titles_are_clickable() {
+-        for (int i = 0; i < page.barButtons.size(); i++) {
+-            Assert.assertTrue(page.barButtons.get(i).isEnabled());
++        for (int i = 0; i < getHomePage().barButtons.size(); i++) {
++            Assert.assertTrue(getHomePage().barButtons.get(i).isEnabled());
+         }
+ 
+     }
+Index: src/test/java/UI_stepDefinitions/US_016_StepDef.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package UI_stepDefinitions;\n\nimport io.cucumber.datatable.DataTable;\nimport io.cucumber.java.en.And;\nimport io.cucumber.java.en.Given;\nimport io.cucumber.java.en.Then;\nimport io.cucumber.java.en.When;\nimport org.junit.Assert;\nimport pages.HomePage;\nimport utilities.ConfigurationReader;\nimport utilities.Driver;\n\nimport java.util.List;\n\npublic class US_016_StepDef {\n\n    HomePage hp = new HomePage();\n\n\n\n    @When(\"user enters {string} to name input\")\n    public void userEntersToNameInput(String name) {\n        hp.name.sendKeys(name);\n    }\n\n    @And(\"user enters {string} to surname input\")\n    public void userEntersToSurnameInput(String surname) {\n        hp.surname.sendKeys(surname);\n    }\n\n    @And(\"user enters {string} to email input\")\n    public void userEntersToEmailInput(String email) {\n        hp.email.sendKeys(email);\n    }\n\n    @When(\"user enters {string}\")\n    public void userEnters(String password) {\n        hp.password.sendKeys(password);\n    }\n\n    @Then(\"user verifies green list's size is {string}\")\n    public void userVerifiesGreenListSSizeIs(String green) {\n        int greenInt = Integer.parseInt(green);\n        Assert.assertEquals(greenInt, hp.greenList.size());\n    }\n\n    @And(\"user verifies red list's size is {string}\")\n    public void userVerifiesRedListSSizeIs(String red) {\n        int redInt = Integer.parseInt(red);\n        Assert.assertEquals(redInt, hp.redList.size());\n    }\n\n    @And(\"user verifies sign up button is not clickable\")\n    public void userVerifiesSignUpButtonIsNotClickable() {\n        Assert.assertFalse(hp.invalidSignup.isEnabled());\n//        Assert.assertTrue(!hp.signupButton.isEnabled());\n    }\n\n    @And(\"user verifies sign up button is clickable\")\n    public void userVerifiesSignUpButtonIsClickable() {\n        Assert.assertTrue(hp.validSignup.isEnabled());\n    }\n\n    @When(\"user enters password, then user verifies sizes of the lists\")\n    public void userEntersPasswordThenUserVerifiesSizesOfTheLists(DataTable dt) {\n        List<String> passwords = dt.column(0);\n        List<String> greenList = dt.column(1);\n        List<String> redList = dt.column(2);\n\n        for (int i = 0; i < passwords.size(); i++) {\n            hp.password.sendKeys(passwords.get(i));\n            Assert.assertEquals(Integer.parseInt(greenList.get(i)), hp.greenList.size());\n            Assert.assertEquals(Integer.parseInt(redList.get(i)), hp.redList.size());\n            Assert.assertFalse(hp.invalidSignup.isEnabled());\n            hp.password.clear();\n        }\n    }\n}\n\n\n\n\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/test/java/UI_stepDefinitions/US_016_StepDef.java b/src/test/java/UI_stepDefinitions/US_016_StepDef.java
+--- a/src/test/java/UI_stepDefinitions/US_016_StepDef.java	(revision a0e073f3708cb1fd7354735ee7a53ddbfb0bc8ca)
++++ b/src/test/java/UI_stepDefinitions/US_016_StepDef.java	(date 1670502259132)
+@@ -6,59 +6,57 @@
+ import io.cucumber.java.en.Then;
+ import io.cucumber.java.en.When;
+ import org.junit.Assert;
++import pages.BasePage;
+ import pages.HomePage;
+ import utilities.ConfigurationReader;
+ import utilities.Driver;
+ 
+ import java.util.List;
+ 
+-public class US_016_StepDef {
+-
+-    HomePage hp = new HomePage();
+-
++public class US_016_StepDef extends BasePage {
+ 
+ 
+     @When("user enters {string} to name input")
+     public void userEntersToNameInput(String name) {
+-        hp.name.sendKeys(name);
++        getHomePage().name.sendKeys(name);
+     }
+ 
+     @And("user enters {string} to surname input")
+     public void userEntersToSurnameInput(String surname) {
+-        hp.surname.sendKeys(surname);
++        getHomePage().surname.sendKeys(surname);
+     }
+ 
+     @And("user enters {string} to email input")
+     public void userEntersToEmailInput(String email) {
+-        hp.email.sendKeys(email);
++        getHomePage().email.sendKeys(email);
+     }
+ 
+     @When("user enters {string}")
+     public void userEnters(String password) {
+-        hp.password.sendKeys(password);
++        getHomePage().password.sendKeys(password);
+     }
+ 
+     @Then("user verifies green list's size is {string}")
+     public void userVerifiesGreenListSSizeIs(String green) {
+         int greenInt = Integer.parseInt(green);
+-        Assert.assertEquals(greenInt, hp.greenList.size());
++        Assert.assertEquals(greenInt, getHomePage().greenList.size());
+     }
+ 
+     @And("user verifies red list's size is {string}")
+     public void userVerifiesRedListSSizeIs(String red) {
+         int redInt = Integer.parseInt(red);
+-        Assert.assertEquals(redInt, hp.redList.size());
++        Assert.assertEquals(redInt, getHomePage().redList.size());
+     }
+ 
+     @And("user verifies sign up button is not clickable")
+     public void userVerifiesSignUpButtonIsNotClickable() {
+-        Assert.assertFalse(hp.invalidSignup.isEnabled());
++        Assert.assertFalse(getHomePage().invalidSignup.isEnabled());
+ //        Assert.assertTrue(!hp.signupButton.isEnabled());
+     }
+ 
+     @And("user verifies sign up button is clickable")
+     public void userVerifiesSignUpButtonIsClickable() {
+-        Assert.assertTrue(hp.validSignup.isEnabled());
++        Assert.assertTrue(getHomePage().validSignup.isEnabled());
+     }
+ 
+     @When("user enters password, then user verifies sizes of the lists")
+@@ -68,11 +66,11 @@
+         List<String> redList = dt.column(2);
+ 
+         for (int i = 0; i < passwords.size(); i++) {
+-            hp.password.sendKeys(passwords.get(i));
+-            Assert.assertEquals(Integer.parseInt(greenList.get(i)), hp.greenList.size());
+-            Assert.assertEquals(Integer.parseInt(redList.get(i)), hp.redList.size());
+-            Assert.assertFalse(hp.invalidSignup.isEnabled());
+-            hp.password.clear();
++            getHomePage().password.sendKeys(passwords.get(i));
++            Assert.assertEquals(Integer.parseInt(greenList.get(i)), getHomePage().greenList.size());
++            Assert.assertEquals(Integer.parseInt(redList.get(i)), getHomePage().redList.size());
++            Assert.assertFalse(getHomePage().invalidSignup.isEnabled());
++            getHomePage().password.clear();
+         }
+     }
+ }
+Index: src/test/java/UI_stepDefinitions/US_019_StepDef.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package UI_stepDefinitions;\n\nimport io.cucumber.java.en.And;\nimport io.cucumber.java.en.Given;\nimport io.cucumber.java.en.Then;\nimport io.cucumber.java.en.When;\nimport org.junit.Assert;\nimport org.openqa.selenium.Keys;\nimport pages.RegisterPage;\nimport utilities.ConfigurationReader;\nimport utilities.Driver;\n\npublic class US_019_StepDef {\n    RegisterPage registerPage= new RegisterPage();\n\n\n\n    @Given(\"user goes to register page\")\n    public void userGoesToRegisterPage() {\n        Driver.getDriver().get(ConfigurationReader.getProperty(\"url\"));\n    }\n\n\n    @When(\"user name button is visible\")\n    public void userNameButtonIsVisible() {\n        Assert.assertTrue(registerPage.nameButton.isDisplayed());\n    }\n\n    @And(\"user email button is visible\")\n    public void userEmailButtonIsVisible() {\n        Assert.assertTrue(registerPage.emailButton.isDisplayed());\n    }\n\n    @And(\"user password button is visible\")\n    public void userPasswordButtonIsVisible() {\n        Assert.assertTrue(registerPage.passwordButton.isDisplayed());\n    }\n\n    @And(\"user name button is enable\")\n    public void userNameButtonIsEnable() {\n        Assert.assertTrue(registerPage.nameButton.isEnabled());\n    }\n\n    @And(\"user email button is enable\")\n    public void userEmailButtonIsEnable() {\n        Assert.assertTrue(registerPage.emailButton.isEnabled());\n    }\n\n    @And(\"user password button is enable\")\n    public void userPasswordButtonIsEnable() {\n        Assert.assertTrue(registerPage.passwordButton.isEnabled());\n\n\n\n    }\n\n    @When(\"user enters {string} {string} {string}\")\n    public void user_enters(String fullname, String email, String password) {\n        registerPage.nameButton.sendKeys(fullname);\n        registerPage.emailButton.sendKeys(email);\n        registerPage.passwordButton.sendKeys(password+ Keys.ENTER);\n\n\n    }\n    @Then(\"verify that the {string} prompt appears\")\n    public void verify_that_the_prompt_appears(String promtMessage) {\n\n        String validationMessage = registerPage.emailButton.getAttribute(\"validationMessage\");\n        Assert.assertEquals(promtMessage,validationMessage);\n\n    }\n\n\n\n\n\n\n}\n\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/test/java/UI_stepDefinitions/US_019_StepDef.java b/src/test/java/UI_stepDefinitions/US_019_StepDef.java
+--- a/src/test/java/UI_stepDefinitions/US_019_StepDef.java	(revision a0e073f3708cb1fd7354735ee7a53ddbfb0bc8ca)
++++ b/src/test/java/UI_stepDefinitions/US_019_StepDef.java	(date 1670502259132)
+@@ -6,13 +6,12 @@
+ import io.cucumber.java.en.When;
+ import org.junit.Assert;
+ import org.openqa.selenium.Keys;
++import pages.BasePage;
+ import pages.RegisterPage;
+ import utilities.ConfigurationReader;
+ import utilities.Driver;
+ 
+-public class US_019_StepDef {
+-    RegisterPage registerPage= new RegisterPage();
+-
++public class US_019_StepDef extends BasePage {
+ 
+ 
+     @Given("user goes to register page")
+@@ -23,32 +22,32 @@
+ 
+     @When("user name button is visible")
+     public void userNameButtonIsVisible() {
+-        Assert.assertTrue(registerPage.nameButton.isDisplayed());
++        Assert.assertTrue(getRegisterPage().nameButton.isDisplayed());
+     }
+ 
+     @And("user email button is visible")
+     public void userEmailButtonIsVisible() {
+-        Assert.assertTrue(registerPage.emailButton.isDisplayed());
++        Assert.assertTrue(getRegisterPage().emailButton.isDisplayed());
+     }
+ 
+     @And("user password button is visible")
+     public void userPasswordButtonIsVisible() {
+-        Assert.assertTrue(registerPage.passwordButton.isDisplayed());
++        Assert.assertTrue(getRegisterPage().passwordButton.isDisplayed());
+     }
+ 
+     @And("user name button is enable")
+     public void userNameButtonIsEnable() {
+-        Assert.assertTrue(registerPage.nameButton.isEnabled());
++        Assert.assertTrue(getRegisterPage().nameButton.isEnabled());
+     }
+ 
+     @And("user email button is enable")
+     public void userEmailButtonIsEnable() {
+-        Assert.assertTrue(registerPage.emailButton.isEnabled());
++        Assert.assertTrue(getRegisterPage().emailButton.isEnabled());
+     }
+ 
+     @And("user password button is enable")
+     public void userPasswordButtonIsEnable() {
+-        Assert.assertTrue(registerPage.passwordButton.isEnabled());
++        Assert.assertTrue(getRegisterPage().passwordButton.isEnabled());
+ 
+ 
+ 
+@@ -56,16 +55,16 @@
+ 
+     @When("user enters {string} {string} {string}")
+     public void user_enters(String fullname, String email, String password) {
+-        registerPage.nameButton.sendKeys(fullname);
+-        registerPage.emailButton.sendKeys(email);
+-        registerPage.passwordButton.sendKeys(password+ Keys.ENTER);
++        getRegisterPage().nameButton.sendKeys(fullname);
++        getRegisterPage().emailButton.sendKeys(email);
++        getRegisterPage().passwordButton.sendKeys(password+ Keys.ENTER);
+ 
+ 
+     }
+     @Then("verify that the {string} prompt appears")
+     public void verify_that_the_prompt_appears(String promtMessage) {
+ 
+-        String validationMessage = registerPage.emailButton.getAttribute("validationMessage");
++        String validationMessage = getRegisterPage().emailButton.getAttribute("validationMessage");
+         Assert.assertEquals(promtMessage,validationMessage);
+ 
+     }
+Index: src/test/java/UI_stepDefinitions/US_005_StepDef.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package UI_stepDefinitions;\n\nimport io.cucumber.datatable.DataTable;\nimport io.cucumber.java.en.Given;\nimport io.cucumber.java.en.Then;\nimport io.github.bonigarcia.wdm.WebDriverManager;\nimport org.junit.Assert;\nimport org.openqa.selenium.WebDriver;\nimport pages.HomePage;\nimport utilities.Driver;\n\nimport java.util.List;\n\npublic class US_005_StepDef extends HomePage {\n    HomePage homePage = new HomePage();\n    WebDriver driver = Driver.getDriver();\n\n    @Given(\"user go to website {string}\")\n    public void user_go_to_website(String url) {\n\n        WebDriverManager.chromedriver().setup();\n        driver.get(\"https://test.hypnotes.net/\");\n        //Driver.getDriver().get(ConfigurationReader.getProperty(\"url\"));\n\n    }\n\n\n    @Then(\"assert titles are displayed\")\n    public void asser_titles_are_displayed(DataTable dataTable) {\n        List<String> column = dataTable.column(0);\n\n        for (int i = 0; i < column.size(); i++) {\n            Assert.assertEquals(column.get(i), homePage.header.getText());\n        }\n\n\n    }\n}\n\n\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/test/java/UI_stepDefinitions/US_005_StepDef.java b/src/test/java/UI_stepDefinitions/US_005_StepDef.java
+--- a/src/test/java/UI_stepDefinitions/US_005_StepDef.java	(revision a0e073f3708cb1fd7354735ee7a53ddbfb0bc8ca)
++++ b/src/test/java/UI_stepDefinitions/US_005_StepDef.java	(date 1670502259132)
+@@ -6,13 +6,13 @@
+ import io.github.bonigarcia.wdm.WebDriverManager;
+ import org.junit.Assert;
+ import org.openqa.selenium.WebDriver;
++import pages.BasePage;
+ import pages.HomePage;
+ import utilities.Driver;
+ 
+ import java.util.List;
+ 
+-public class US_005_StepDef extends HomePage {
+-    HomePage homePage = new HomePage();
++public class US_005_StepDef extends BasePage {
+     WebDriver driver = Driver.getDriver();
+ 
+     @Given("user go to website {string}")
+@@ -30,7 +30,7 @@
+         List<String> column = dataTable.column(0);
+ 
+         for (int i = 0; i < column.size(); i++) {
+-            Assert.assertEquals(column.get(i), homePage.header.getText());
++            Assert.assertEquals(column.get(i), getHomePage().header.getText());
+         }
+ 
+ 
+Index: src/test/resources/features/US_004.feature
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><<<<<<< HEAD\n@US_004\nFeature:HomePage_US_004\n  Scenario:TC_001\n    Given user go to Website \"https://test.hypnotes.net/\"\n    And user scroll down\n    Then user assert  that the Facebook, LinkedIn, Twitter, Instagram icons are visible.\n\n    Then user assert that the Facebook, LinkedIn, Twitter, Instagram icons are clickable.\n\n    And user clicks on the Facebook, LinkedIn, Twitter, Instagram icons.\n#   Then user assert  the company-related page be visible.\n=======\nFeature:\n  Scenario:\n\n    Given\n    When\n    Then\n>>>>>>> main\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/test/resources/features/US_004.feature b/src/test/resources/features/US_004.feature
+--- a/src/test/resources/features/US_004.feature	(revision a0e073f3708cb1fd7354735ee7a53ddbfb0bc8ca)
++++ b/src/test/resources/features/US_004.feature	(date 1670502437128)
+@@ -1,6 +1,6 @@
+-<<<<<<< HEAD
+ @US_004
+ Feature:HomePage_US_004
++
+   Scenario:TC_001
+     Given user go to Website "https://test.hypnotes.net/"
+     And user scroll down
+Index: configuration.properties
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>browser=chrome\nurlWebsite=https://test.hypnotes.net/ \nProjekt Name= Hypnotes\nurl=https://test.hypnotes.net/\nurl2=https://test.hypnotes.net/register/client\n\ntherapistEmail=hypnotes2022tr2@gmail.com\ntherapistPassword=Aydinlik2023/\n\nclientEmail=hypnotes2022cl2@gmail.com\nclientPassword=Aydinlik2023/\n\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>ISO-8859-1
+===================================================================
+diff --git a/configuration.properties b/configuration.properties
+--- a/configuration.properties	(revision a0e073f3708cb1fd7354735ee7a53ddbfb0bc8ca)
++++ b/configuration.properties	(date 1670502259136)
+@@ -1,7 +1,6 @@
+ browser=chrome
+-urlWebsite=https://test.hypnotes.net/ 
+-Projekt Name= Hypnotes
+ url=https://test.hypnotes.net/
++Projekt Name= Hypnotes
+ url2=https://test.hypnotes.net/register/client
+ 
+ therapistEmail=hypnotes2022tr2@gmail.com
+Index: src/test/java/UI_stepDefinitions/US_022_StepDef.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package UI_stepDefinitions;\n\nimport io.cucumber.java.en.And;\nimport io.cucumber.java.en.Given;\nimport io.cucumber.java.en.Then;\nimport io.cucumber.java.en.When;\nimport org.asynchttpclient.util.Assertions;\nimport org.bouncycastle.jce.provider.BrokenJCEBlockCipher;\nimport org.junit.Assert;\nimport org.openqa.selenium.WebElement;\nimport org.openqa.selenium.interactions.Action;\nimport org.openqa.selenium.interactions.Actions;\nimport org.openqa.selenium.support.ui.Select;\nimport pages.BasePage;\nimport pages.LoginRegisterPage;\nimport utilities.BrowserUtilities;\nimport utilities.Driver;\n\npublic class US_022_StepDef {\n\n    LoginRegisterPage lg = new LoginRegisterPage();\n\n    @When(\"Sign up appears and user mouses over Sign Up\")\n    public void sign_up_appears_and_user_mouses_over_sign_up() {\n        Assert.assertTrue(lg.logRegPageSıgnUpButton.isDisplayed());\n    }\n\n    @Then(\"User sees client and clicks\")\n    public void userSeesClientAndClicks() {\n        BrowserUtilities.waitForClickablility(lg.logRegPageSıgnUpButton,3);\n        lg.logRegPageSıgnUpButton.click();\n        for (int i = 0; i < lg.clientAndTherapist.size(); i++) {\n            if (lg.clientAndTherapist.get(i).getText().equalsIgnoreCase(\"Client\")) ;\n            lg.clientAndTherapist.get(i).click();\n\n        }\n    }\n\n    @And(\"User verifies {string}\")\n    public void userVerifies(String url) {\n        Assert.assertEquals(url, Driver.getDriver().getCurrentUrl());\n    }\n\n\n    @Then(\"User sees {string}\")\n    public void user_sees(String string) {\n        BrowserUtilities.scrollToElement(lg.alreadyAccount);\n        BrowserUtilities.waitFor(2);\n        Assert.assertTrue(string, true);\n    }\n\n\n    @And(\"User clicks login button verifies login url {string}\")\n    public void userClicksLoginButtonVerifiesLoginUrl(String loginUrl) {\n       BrowserUtilities.clickWithJS(lg.accountLogin);\n        Assert.assertEquals(loginUrl, Driver.getDriver().getCurrentUrl());\n\n\n\n    }\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/test/java/UI_stepDefinitions/US_022_StepDef.java b/src/test/java/UI_stepDefinitions/US_022_StepDef.java
+--- a/src/test/java/UI_stepDefinitions/US_022_StepDef.java	(revision a0e073f3708cb1fd7354735ee7a53ddbfb0bc8ca)
++++ b/src/test/java/UI_stepDefinitions/US_022_StepDef.java	(date 1670502259132)
+@@ -16,22 +16,21 @@
+ import utilities.BrowserUtilities;
+ import utilities.Driver;
+ 
+-public class US_022_StepDef {
++public class US_022_StepDef extends BasePage {
+ 
+-    LoginRegisterPage lg = new LoginRegisterPage();
+ 
+     @When("Sign up appears and user mouses over Sign Up")
+     public void sign_up_appears_and_user_mouses_over_sign_up() {
+-        Assert.assertTrue(lg.logRegPageSıgnUpButton.isDisplayed());
++        Assert.assertTrue(getLoginRegisterPage().logRegPageSıgnUpButton.isDisplayed());
+     }
+ 
+     @Then("User sees client and clicks")
+     public void userSeesClientAndClicks() {
+-        BrowserUtilities.waitForClickablility(lg.logRegPageSıgnUpButton,3);
+-        lg.logRegPageSıgnUpButton.click();
+-        for (int i = 0; i < lg.clientAndTherapist.size(); i++) {
+-            if (lg.clientAndTherapist.get(i).getText().equalsIgnoreCase("Client")) ;
+-            lg.clientAndTherapist.get(i).click();
++        BrowserUtilities.waitForClickablility(getLoginRegisterPage().logRegPageSıgnUpButton,3);
++        getLoginRegisterPage().logRegPageSıgnUpButton.click();
++        for (int i = 0; i < getLoginRegisterPage().clientAndTherapist.size(); i++) {
++            if (getLoginRegisterPage().clientAndTherapist.get(i).getText().equalsIgnoreCase("Client")) ;
++            getLoginRegisterPage().clientAndTherapist.get(i).click();
+ 
+         }
+     }
+@@ -44,18 +43,15 @@
+ 
+     @Then("User sees {string}")
+     public void user_sees(String string) {
+-        BrowserUtilities.scrollToElement(lg.alreadyAccount);
++        BrowserUtilities.scrollToElement(getLoginRegisterPage().alreadyAccount);
+         BrowserUtilities.waitFor(2);
+         Assert.assertTrue(string, true);
+     }
+ 
+-
+     @And("User clicks login button verifies login url {string}")
+     public void userClicksLoginButtonVerifiesLoginUrl(String loginUrl) {
+-       BrowserUtilities.clickWithJS(lg.accountLogin);
++       BrowserUtilities.clickWithJS(getLoginRegisterPage().accountLogin);
+         Assert.assertEquals(loginUrl, Driver.getDriver().getCurrentUrl());
+ 
+-
+-
+     }
+ }
+\ No newline at end of file
+Index: src/test/java/UI_stepDefinitions/US_010_StepDef.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package UI_stepDefinitions;\n\nimport io.cucumber.datatable.DataTable;\nimport io.cucumber.java.en.Given;\nimport io.cucumber.java.en.Then;\nimport io.cucumber.java.en.When;\nimport org.junit.Assert;\nimport pages.BasePage;\nimport pages.HomePage;\nimport utilities.BrowserUtilities;\nimport utilities.ConfigurationReader;\nimport utilities.Driver;\n\nimport java.util.ArrayList;\nimport java.util.List;\n\npublic class US_010_StepDef extends BasePage {\n    HomePage hp= new HomePage();\n\n\n    @When(\"User commes below of Webseite\")\n    public void user_commes_below_of_webseite() {\n        BrowserUtilities.waitForVisibility(hp.hpTitleEverythingMang, 5);\n        BrowserUtilities.scrollToElement(hp.hpTitleEverythingMang);\n    }\n    @Then(\"User verifies all titles {string}\")\n    public void userVerifiesAllTitles(String title) {\n        switch (title) {\n            case \"T1\":\n                Assert.assertEquals(title, hp.hpTitleEverythingMang.getText());\n                break;\n            case \"T2\":\n                Assert.assertEquals(title, hp.subtitleDifferent.getText());\n                break;\n            case \"T3\":\n                Assert.assertEquals(title, hp.subtitleMadefor.getText());\n                break;\n            case \"T4\":\n                Assert.assertEquals(title, hp.subtitleFreemedical.getText());\n                break;\n        }\n    }\n\n    @Then(\"Section is to control\")\n    public void sectionIsToControl() {\n        Assert.assertTrue(hp.textDifferent.isDisplayed());\n        Assert.assertTrue(hp.textFreeMedical.isDisplayed());\n        Assert.assertTrue(hp.textMadefor.isDisplayed());\n    }\n\n\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/test/java/UI_stepDefinitions/US_010_StepDef.java b/src/test/java/UI_stepDefinitions/US_010_StepDef.java
+--- a/src/test/java/UI_stepDefinitions/US_010_StepDef.java	(revision a0e073f3708cb1fd7354735ee7a53ddbfb0bc8ca)
++++ b/src/test/java/UI_stepDefinitions/US_010_StepDef.java	(date 1670502259132)
+@@ -15,37 +15,35 @@
+ import java.util.List;
+ 
+ public class US_010_StepDef extends BasePage {
+-    HomePage hp= new HomePage();
+-
+-
++    
+     @When("User commes below of Webseite")
+     public void user_commes_below_of_webseite() {
+-        BrowserUtilities.waitForVisibility(hp.hpTitleEverythingMang, 5);
+-        BrowserUtilities.scrollToElement(hp.hpTitleEverythingMang);
++        BrowserUtilities.waitForVisibility(getHomePage().hpTitleEverythingMang, 5);
++        BrowserUtilities.scrollToElement(getHomePage().hpTitleEverythingMang);
+     }
+     @Then("User verifies all titles {string}")
+     public void userVerifiesAllTitles(String title) {
+         switch (title) {
+             case "T1":
+-                Assert.assertEquals(title, hp.hpTitleEverythingMang.getText());
++                Assert.assertEquals(title, getHomePage().hpTitleEverythingMang.getText());
+                 break;
+             case "T2":
+-                Assert.assertEquals(title, hp.subtitleDifferent.getText());
++                Assert.assertEquals(title, getHomePage().subtitleDifferent.getText());
+                 break;
+             case "T3":
+-                Assert.assertEquals(title, hp.subtitleMadefor.getText());
++                Assert.assertEquals(title, getHomePage().subtitleMadefor.getText());
+                 break;
+             case "T4":
+-                Assert.assertEquals(title, hp.subtitleFreemedical.getText());
++                Assert.assertEquals(title, getHomePage().subtitleFreemedical.getText());
+                 break;
+         }
+     }
+ 
+     @Then("Section is to control")
+     public void sectionIsToControl() {
+-        Assert.assertTrue(hp.textDifferent.isDisplayed());
+-        Assert.assertTrue(hp.textFreeMedical.isDisplayed());
+-        Assert.assertTrue(hp.textMadefor.isDisplayed());
++        Assert.assertTrue(getHomePage().textDifferent.isDisplayed());
++        Assert.assertTrue(getHomePage().textFreeMedical.isDisplayed());
++        Assert.assertTrue(getHomePage().textMadefor.isDisplayed());
+     }
+ 
+ 
+Index: src/test/resources/features/US_057.feature
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/test/resources/features/US_057.feature b/src/test/resources/features/US_057.feature
+new file mode 100644
+--- /dev/null	(date 1670502259136)
++++ b/src/test/resources/features/US_057.feature	(date 1670502259136)
+@@ -0,0 +1,19 @@
++Feature:As a user, I should be able to attach files about problems
++
++  Background:
++    Given user goes to therapist login page
++
++  Scenario: TC_001
++    When user clicks clients
++    Then user search client
++    When user clicks view detail
++    And  user clicks login Presenting Issue
++    And  user clicks Additional Notes
++    Then Assert voice Notes is enable
++    When  user clicks add Voice
++    Then  user verifies Recording
++    When user clicks recorded sound
++    And user clicks Play button and Voice play
++    And user verifies "tıtle"
++
++
+Index: src/test/java/UI_stepDefinitions/US_023_StepDef.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package UI_stepDefinitions;\n\nimport io.cucumber.java.en.And;\nimport io.cucumber.java.en.Then;\nimport io.cucumber.java.en.When;\nimport org.junit.Assert;\nimport pages.LoginRegisterPage;\nimport utilities.BrowserUtilities;\nimport utilities.Driver;\n\npublic class US_023_StepDef {\n    LoginRegisterPage lg = new LoginRegisterPage();\n\n    @When(\"User sees therapist and clicks\")\n    public void userSeesTherapistAndClicks() {\n        lg.logRegPageSıgnUpButton.click();\n        for (int i = 0; i < lg.clientAndTherapist.size(); i++) {\n            if (lg.clientAndTherapist.get(i).getText().equalsIgnoreCase(\"Therapist\")) ;\n            lg.clientAndTherapist.get(i).click();\n        }\n    }\n\n    @And(\"User clicks login button\")\n    public void userClicksLoginButton() {\n        BrowserUtilities.clickWithJS(lg.accountLogin);\n    }\n\n\n    @Then(\"On the page {string} button ist clickable\")\n    public void onThePageButtonIstClickable(String therapist) {\n        if (lg.iAmTherapistButton.isEnabled()) {\n            Assert.assertTrue(therapist, lg.therapistTitle.isDisplayed());\n            System.out.println(\"therapistTitle = \" + lg.therapistTitle.getText());\n        } else if (lg.iAmClientButton.isEnabled()) {\n            BrowserUtilities.clickWithJS(lg.iAmClientButton);\n\n        }\n\n    }\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/test/java/UI_stepDefinitions/US_023_StepDef.java b/src/test/java/UI_stepDefinitions/US_023_StepDef.java
+--- a/src/test/java/UI_stepDefinitions/US_023_StepDef.java	(revision a0e073f3708cb1fd7354735ee7a53ddbfb0bc8ca)
++++ b/src/test/java/UI_stepDefinitions/US_023_StepDef.java	(date 1670502259132)
+@@ -4,35 +4,35 @@
+ import io.cucumber.java.en.Then;
+ import io.cucumber.java.en.When;
+ import org.junit.Assert;
++import pages.BasePage;
+ import pages.LoginRegisterPage;
+ import utilities.BrowserUtilities;
+ import utilities.Driver;
+ 
+-public class US_023_StepDef {
+-    LoginRegisterPage lg = new LoginRegisterPage();
++public class US_023_StepDef extends BasePage {
+ 
+     @When("User sees therapist and clicks")
+     public void userSeesTherapistAndClicks() {
+-        lg.logRegPageSıgnUpButton.click();
+-        for (int i = 0; i < lg.clientAndTherapist.size(); i++) {
+-            if (lg.clientAndTherapist.get(i).getText().equalsIgnoreCase("Therapist")) ;
+-            lg.clientAndTherapist.get(i).click();
++        getLoginRegisterPage().logRegPageSıgnUpButton.click();
++        for (int i = 0; i < getLoginRegisterPage().clientAndTherapist.size(); i++) {
++            if (getLoginRegisterPage().clientAndTherapist.get(i).getText().equalsIgnoreCase("Therapist")) ;
++            getLoginRegisterPage().clientAndTherapist.get(i).click();
+         }
+     }
+ 
+     @And("User clicks login button")
+     public void userClicksLoginButton() {
+-        BrowserUtilities.clickWithJS(lg.accountLogin);
++        BrowserUtilities.clickWithJS(getLoginRegisterPage().accountLogin);
+     }
+ 
+ 
+     @Then("On the page {string} button ist clickable")
+     public void onThePageButtonIstClickable(String therapist) {
+-        if (lg.iAmTherapistButton.isEnabled()) {
+-            Assert.assertTrue(therapist, lg.therapistTitle.isDisplayed());
+-            System.out.println("therapistTitle = " + lg.therapistTitle.getText());
+-        } else if (lg.iAmClientButton.isEnabled()) {
+-            BrowserUtilities.clickWithJS(lg.iAmClientButton);
++        if (getLoginRegisterPage().iAmTherapistButton.isEnabled()) {
++            Assert.assertTrue(therapist, getLoginRegisterPage().therapistTitle.isDisplayed());
++            System.out.println("therapistTitle = " + getLoginRegisterPage().therapistTitle.getText());
++        } else if (getLoginRegisterPage().iAmClientButton.isEnabled()) {
++            BrowserUtilities.clickWithJS(getLoginRegisterPage().iAmClientButton);
+ 
+         }
+ 
